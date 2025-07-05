@@ -2,7 +2,7 @@
 
 ## 📘 Mô tả
 
-Dự án này giúp xây dựng một hệ thống quản lý khách sạn toàn diện bằng cách sử dụng **ReactJS** và tích hợp các dịch vụ của **AWS** như DynamoDB, S3, CloudFront, và Cognito.
+Dự án này giúp xây dựng một hệ thống quản lý khách sạn toàn diện bằng cách sử dụng **ReactJS** ở Frontend và **NodeJS** ở Backend và tích hợp các dịch vụ của **AWS** như DynamoDB, S3, CloudFront, và Cognito.
 
 ---
 
@@ -32,8 +32,6 @@ Dự án này giúp xây dựng một hệ thống quản lý khách sạn toàn
 
 ### 👤 Xác thực người dùng
 - [x] Đăng nhập
-- [x] Đăng ký tài khoản
-- [x] Tự động ghi nhớ đăng nhập
 - [x] Quên mật khẩu và gửi email đặt lại
 - [x] Xác minh OTP qua email
 - [x] Đổi mật khẩu
@@ -45,8 +43,7 @@ Dự án này giúp xây dựng một hệ thống quản lý khách sạn toàn
 - [x] Quản lý phòng (upload ảnh lên S3)
 - [x] Quản lý dịch vụ
 - [x] Quản lý khách hàng
-- [x] Quản lý đặt phòng
-- [x] Quản lý trả phòng
+- [x] Quản lý đặt trả phòng
 - [x] Quản lý thanh toán
 - [x] Báo cáo và thống kê
 - [x] Sửa lỗi và xử lý ngoại lệ
@@ -71,6 +68,9 @@ hotelaws/
 ├── package.json
 └── README.md
 ```
+
+
+---
 
 ### Cài đặt và chạy dự án
 ⚠️ Yêu cầu: Node >= 14, Yarn hoặc npm, Git, AWS CLI
@@ -115,25 +115,28 @@ yarn start:prod
 ```
 
 
+---
 
 ### 🌍 Frontend
-Build frontend React: npm run build
+- [x] Build frontend React: npm run build
 
-Upload thư mục /build lên AWS S3
+- [x] Upload thư mục /build lên AWS S3
 
-Tạo CloudFront phân phối từ bucket S3
+- [x] Tạo CloudFront phân phối từ bucket S3
 
+
+---
 ### 🔐 Authentication
-Cấu hình User Pool trong AWS Cognito
+- [x] Cấu hình User Pool trong AWS Cognito
 
-Tích hợp đăng nhập/đăng ký vào frontend
+- [x] Tích hợp đăng nhập/đăng ký vào frontend
 
+---
 ### 💾 Database
-Tạo bảng DynamoDB:
+- [x] Tạo bảng DynamoDB: users, rooms, services, bookings, invoices
 
-users, rooms, services, bookings, invoices
+- [x] Sử dụng AWS SDK để thao tác dữ liệu
 
-Sử dụng AWS SDK để thao tác dữ liệu
-
+---
 ### 🖼️ Upload ảnh
-Tích hợp AWS S3 để lưu ảnh phòng
+- [x] Tích hợp AWS S3 để lưu ảnh phòng
