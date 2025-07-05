@@ -1,118 +1,167 @@
-## Description
+# 🏨 Hệ Thống Quản Lý Khách Sạn
 
-- Learning concept [ReactJS](https://reactjs.org/docs/getting-started.html) framework development by Facebook.
+## 📘 Mô tả
 
-- Learning ecosystem for ReactJS, example : [react-router-dom](https://reactrouter.com/web/guides/quick-start), [redux](https://redux.js.org/), [Chakra UI](https://chakra-ui.com/).
+Dự án này giúp xây dựng một hệ thống quản lý khách sạn toàn diện bằng cách sử dụng **ReactJS** và tích hợp các dịch vụ của **AWS** như DynamoDB, S3, CloudFront, và Cognito.
 
-- Implement project example with [CRA](https://create-react-app.dev/).
+---
 
-- Build project and implement with SPA or SSR.
+## 🛠️ Công nghệ sử dụng
 
-- Deploy source to hosting.
+- **Frontend**: 
+  - [ReactJS](https://reactjs.org/)
+  - [Redux](https://redux.js.org/)
+  - [Redux Saga](https://redux-saga.js.org/)
+  - [React Router](https://reactrouter.com/)
+  - [Chakra UI](https://chakra-ui.com/)
 
+- **Backend**:
+  - AWS Cognito (xác thực người dùng)
+  - AWS DynamoDB (cơ sở dữ liệu NoSQL)
+  - AWS S3 (lưu trữ ảnh phòng)
+  - AWS CloudFront (phân phối nội dung nhanh toàn cầu)
 
+- **Khác**:
+  - SSR (Server Side Rendering)
+  - SPA (Single Page Application)
+  - Hosting: AWS S3 + CloudFront
 
-## Feature
+---
 
-- Authentication :
-	+ Sign in.
-	+ Sign up.
-	+ Auto remember login.
-	+ Forgot password.
-	+ Send email forgot password.
-	+ Verity OTP via email.
-	+ Update user information, change password.
-  
-- Loading all in.
+## 🔐 Tính năng chính
 
-- CRUD todo example.
+### 👤 Xác thực người dùng
+- [x] Đăng nhập
+- [x] Đăng ký tài khoản
+- [x] Tự động ghi nhớ đăng nhập
+- [x] Quên mật khẩu và gửi email đặt lại
+- [x] Xác minh OTP qua email
+- [x] Đổi mật khẩu
+- [x] Cập nhật thông tin cá nhân
 
-- UI profile and more...etc.
+### 🏨 Quản lý hệ thống
+- [x] Quản lý tài khoản người dùng (Cognito)
+- [x] Quản lý loại phòng
+- [x] Quản lý phòng (upload ảnh lên S3)
+- [x] Quản lý dịch vụ
+- [x] Quản lý khách hàng
+- [x] Quản lý đặt phòng
+- [x] Quản lý trả phòng
+- [x] Quản lý thanh toán
+- [x] Báo cáo và thống kê
+- [x] Sửa lỗi và xử lý ngoại lệ
 
-- Build static SSR.
+---
 
-- Search friend `<coming soon>`
-
-- Request add friend `<coming soon>`
-
-- Chat realtime (chat one to one, group chat, ...) `<coming soon>`
-  
-- Invite group chat `<coming soon>`
-
-- Tutorial detail deployment fullstack app `<coming soon>`.
-
-
-## Setup
-
-
-
-We are using template Create React App.
-
-
-
-> Note :
-> - Node version have Node >= 10 on your local development machine. You have download [Node JS](https://nodejs.org/en/) or update with command : *npm update*.
-> - Using IDE [Visual Studio Code](https://code.visualstudio.com/) or [WebStorm](https://www.jetbrains.com/webstorm/)
-> *All you need left is to know a little bit of [Javascript](https://www.w3schools.com/js/) .*
-
-
-
-## Docs & Started
-
-- Docs for concept React JS.
-- What is [JSX](https://reactjs.org/docs/introducing-jsx.html) ?
-- How [rendering](https://reactjs.org/docs/rendering-elements.html)  with React ?
-- How to create [Component React and Props](https://reactjs.org/docs/components-and-props.html) ?
-- [React State ? LifeCycle ?](https://reactjs.org/docs/state-and-lifecycle.html)
-- How to [handle event](https://reactjs.org/docs/handling-events.html) React JS ?
-- [Condition Rendering ?](https://reactjs.org/docs/conditional-rendering.html)
-- [Lists and Keys?](https://reactjs.org/docs/lists-and-keys.html)
-- Difference between Class Component and Functional Components. ( [Link docs](https://reactjs.org/docs/react-component.html#render) | [Link dev](https://dev.to/mehmehmehlol/class-components-vs-functional-components-in-react-4hd3) )
-- State management with [redux](https://redux.js.org/)
-- Middleware for client [redux saga](https://redux-saga.js.org/)
-
-## Running the app
-*We are split two folder: client and server*
-
-`Run only client`
+## 📁 Cấu trúc thư mục
 
 ```bash
-# development
+hotelaws/
+│
+├── frontend/              # Frontend ReactJS
+│   ├── public/
+│   ├── src/
+│   └── ...
+│
+├── backend/              # Backend NodeJS
+│   └── ...
+│
+├── .env                 # Biến môi trường
+├── ssr.sh               # Script chạy SSR
+├── package.json
+└── README.md
+Cài đặt và chạy dự án
+⚠️ Yêu cầu: Node >= 14, Yarn hoặc npm, Git, AWS CLI
+🔧 Cài đặt frontend
+cd frontend
 
-$ npm run start | yarn start
+# Cài đặt dependencies
+npm install
+# hoặc
+yarn install
 
-# build mode
+# Chạy chế độ phát triển
+npm start
+# hoặc
+yarn start
 
-$ npm run build | yarn build
+# Build sản phẩm
+npm run build
+# hoặc
+yarn build
+🔧 Cài đặt backend
+bash
+Copy
+Edit
+cd backend
 
+# Cài đặt dependencies
+npm install
+# hoặc
+yarn install
 
-```
+# Chạy ở chế độ phát triển
+npm run start:dev
+# hoặc
+yarn start:dev
 
-`Run only server`
+# Chạy ở chế độ production
+npm run start:prod
+# hoặc
+yarn start:prod
+🌐 Chạy ở chế độ SSR (Server Side Rendering)
+bash
+Copy
+Edit
+# Di chuyển về thư mục gốc
+cd .
 
-```bash
-# development
+# Bật SSR trong file .env
+IS_SSR=true
 
-$ npm run start:dev | yarn start:dev
+# Chạy script SSR
+./ssr.sh
+🔍 SSR giúp tăng tốc độ tải trang, SEO tốt hơn và giảm chi phí CloudFront.
 
-# production mode
+📚 Tài liệu học tập
+Giới thiệu JSX
 
-$ npm run start:prod | yarn start:prod
+Cách render component
 
+State và Lifecycle
 
-```
+Xử lý sự kiện
 
-## Run SSR
+Điều kiện hiển thị
 
-*Run script in root folder*
+Danh sách và Keys
 
-```bash
+So sánh Class vs Function Component
 
-cd {root project}.
+Redux cơ bản
 
-- open .env file, set IS_SSR=true
- *IS_SSR enable public folder build from client*
+Redux Saga
 
-# bash script
+React Router
 
-$ ./ssr.sh
+🌍 Frontend
+Build frontend React: npm run build
+
+Upload thư mục /build lên AWS S3
+
+Tạo CloudFront phân phối từ bucket S3
+
+🔐 Authentication
+Cấu hình User Pool trong AWS Cognito
+
+Tích hợp đăng nhập/đăng ký vào frontend
+
+💾 Database
+Tạo bảng DynamoDB:
+
+users, rooms, services, bookings, invoices
+
+Sử dụng AWS SDK để thao tác dữ liệu
+
+🖼️ Upload ảnh
+Tích hợp AWS S3 để lưu ảnh phòng
