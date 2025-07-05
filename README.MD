@@ -80,40 +80,11 @@ cd frontend
 
 # Cài đặt dependencies
 npm install
-# hoặc
-yarn install
 
 # Chạy chế độ phát triển
 npm start
-# hoặc
-yarn start
-
-# Build sản phẩm
-npm run build
-# hoặc
-yarn build
 
 ```
-### 🔧 Cài đặt backend
-```bash
-cd backend
-
-# Cài đặt dependencies
-npm install
-# hoặc
-yarn install
-
-# Chạy ở chế độ phát triển
-npm run start:dev
-# hoặc
-yarn start:dev
-
-# Chạy ở chế độ production
-npm run start:prod
-# hoặc
-yarn start:prod
-```
-
 
 ---
 
