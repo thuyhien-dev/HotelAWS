@@ -1,0 +1,62 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+.env.*.local
+
+# Logs
+logs
+*.log
+*.log.*
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Optional npm cache directory
+.npm
+
+# Build
+dist/
+build/
+
+# Coverage
+coverage/
+
+# IDEs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# React specific (if in monorepo or root)
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+
+# Parcel / Next.js / Vite
+.cache/
+.next/
+out/
+.vite/
+
+# Storybook
+.storybook-out/
+
+# Testing
+jest-cache/
+jest-coverage/
+cypress/videos/
+cypress/screenshots/
+
+# Mac system files
+.DS_Store
