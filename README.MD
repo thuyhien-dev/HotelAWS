@@ -70,9 +70,12 @@ hotelaws/
 ├── ssr.sh               # Script chạy SSR
 ├── package.json
 └── README.md
-Cài đặt và chạy dự án
+```
+
+### Cài đặt và chạy dự án
 ⚠️ Yêu cầu: Node >= 14, Yarn hoặc npm, Git, AWS CLI
-🔧 Cài đặt frontend
+### 🔧 Cài đặt frontend
+```bash
 cd frontend
 
 # Cài đặt dependencies
@@ -89,10 +92,10 @@ yarn start
 npm run build
 # hoặc
 yarn build
-🔧 Cài đặt backend
-bash
-Copy
-Edit
+
+```
+### 🔧 Cài đặt backend
+```bash
 cd backend
 
 # Cài đặt dependencies
@@ -109,59 +112,28 @@ yarn start:dev
 npm run start:prod
 # hoặc
 yarn start:prod
-🌐 Chạy ở chế độ SSR (Server Side Rendering)
-bash
-Copy
-Edit
-# Di chuyển về thư mục gốc
-cd .
+```
 
-# Bật SSR trong file .env
-IS_SSR=true
 
-# Chạy script SSR
-./ssr.sh
-🔍 SSR giúp tăng tốc độ tải trang, SEO tốt hơn và giảm chi phí CloudFront.
 
-📚 Tài liệu học tập
-Giới thiệu JSX
-
-Cách render component
-
-State và Lifecycle
-
-Xử lý sự kiện
-
-Điều kiện hiển thị
-
-Danh sách và Keys
-
-So sánh Class vs Function Component
-
-Redux cơ bản
-
-Redux Saga
-
-React Router
-
-🌍 Frontend
+### 🌍 Frontend
 Build frontend React: npm run build
 
 Upload thư mục /build lên AWS S3
 
 Tạo CloudFront phân phối từ bucket S3
 
-🔐 Authentication
+### 🔐 Authentication
 Cấu hình User Pool trong AWS Cognito
 
 Tích hợp đăng nhập/đăng ký vào frontend
 
-💾 Database
+### 💾 Database
 Tạo bảng DynamoDB:
 
 users, rooms, services, bookings, invoices
 
 Sử dụng AWS SDK để thao tác dữ liệu
 
-🖼️ Upload ảnh
+### 🖼️ Upload ảnh
 Tích hợp AWS S3 để lưu ảnh phòng
