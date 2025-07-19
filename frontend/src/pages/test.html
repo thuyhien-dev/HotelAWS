@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Google Maps Demo</title>
+  <style>
+    #map {
+      height: 100vh;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center">Demo Google Maps API</h2>
+  <div id="map"></div>
+
+  <script>
+    let map;
+    let marker;
+
+    function initMap() {
+      const center = { lat: 21.0285, lng: 105.8542 }; // Hà Nội
+
+      map = new google.maps.Map(document.getElementById("map"), {
+        center: center,
+        zoom: 13,
+      });
+
+      marker = new google.maps.Marker({
+        position: center,
+        map: map,
+        draggable: true,
+      });
+
+      map.addListener("click", (e) => {
+        const clickedLocation = e.latLng;
+        marker.setPosition(clickedLocation);
+        console.log("Tọa độ đã chọn:", clickedLocation.lat(), clickedLocation.lng());
+      });
+    }
+  </script>
+
+  <!-- Load Google Maps API -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNI_ZWPqvdS6r6gPVO50I4TlYkfkZdXh8&callback=initMap" async defer></script>
+</body>
+</html>

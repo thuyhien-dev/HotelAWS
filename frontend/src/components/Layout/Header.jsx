@@ -43,7 +43,7 @@ function Header() {
           <li className="nav-item dropdown user-menu">
             <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
               <img src="/img/user2-160x160.jpg" className="user-image rounded-circle shadow" alt="User Image" />
-              <span className="d-none d-md-inline">Alexander Pierce</span>
+              <span className="d-none d-md-inline">Quản trị viên</span>
             </a>
             <ul className="dropdown-menu dropdown-menu-lg dropdown-menu-end">
               <li className="user-header text-bg-primary">

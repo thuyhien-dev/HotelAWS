@@ -29,7 +29,7 @@ module.exports = {
 
     const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: '1h' });
 
-    res.json({ message: 'Login successful', token });
+    res.json({ message: 'Đăng nhập thành công', token });
   },
 
   changePassword: async (req, res) => {
