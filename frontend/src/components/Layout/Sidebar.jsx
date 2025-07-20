@@ -23,36 +23,50 @@ function Sidebar() {
 
                         <li className="nav-item">
                             <a href="/admin/roomTypes" className="nav-link">
-                                <i className="nav-icon bi bi-door-closed"></i>
+                                <i className="nav-icon bi bi-layout-text-window"></i>
                                 <p>Quản lý loại phòng</p>
                             </a>
                         </li>
 
                         <li className="nav-item">
                             <a href="/admin/rooms" className="nav-link">
-                                <i className="nav-icon bi bi-house-door"></i>
+                                <i className="nav-icon bi bi-door-open"></i>
                                 <p>Quản lý phòng</p>
                             </a>
                         </li>
 
                         <li className="nav-item">
                             <a href="/admin/bookings" className="nav-link">
-                                <i className="nav-icon bi bi-journal-check"></i>
+                                <i className="nav-icon bi bi-calendar-check"></i>
                                 <p>Quản lý đặt phòng</p>
                             </a>
                         </li>
 
                         <li className="nav-item">
                             <a href="/admin/invoices" className="nav-link">
-                                <i className="nav-icon bi bi-receipt"></i>
+                                <i className="nav-icon bi bi-file-earmark-text"></i>
                                 <p>Quản lý hoá đơn</p>
                             </a>
                         </li>
 
                         <li className="nav-item">
                             <a href="/admin/accounts" className="nav-link">
-                                <i className="nav-icon bi bi-people"></i>
+                                <i className="nav-icon bi bi-person-badge"></i>
                                 <p>Quản lý người dùng</p>
+                            </a>
+                        </li>
+
+                        <li className="nav-item">
+                            <a href="/admin/customers" className="nav-link">
+                                <i className="nav-icon bi bi-person-lines-fill"></i>
+                                <p>Quản lý khách hàng</p>
+                            </a>
+                        </li>
+
+                        <li className="nav-item">
+                            <a href="/admin/services" className="nav-link">
+                                <i className="nav-icon bi bi-tools"></i>
+                                <p>Quản lý dịch vụ</p>
                             </a>
                         </li>
 

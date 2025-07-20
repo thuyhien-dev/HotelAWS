@@ -9,6 +9,8 @@ import Account from "./pages/Account";
 import RoomTypeManage from "./pages/RoomTypeManage";
 import RoomManage from "./pages/RoomManage";
 import AccountManage from "./pages/AccountManage";
+import CustomerManage from "./pages/CustomerManage";
+import ServiceManage from "./pages/ServiceManage";
 
 function RequireAuth({ children }) {
   const token = localStorage.getItem('token');
@@ -43,9 +45,11 @@ export default function App() {
               <Layout>
                 <Routes>
                   <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/admin/roomTypes" element={<RoomTypeManage />} /> 
-                  <Route path="/admin/rooms" element={<RoomManage />} /> 
-                  <Route path="/admin/accounts" element={<AccountManage />} /> 
+                  <Route path="/admin/roomTypes" element={<RoomTypeManage />} />
+                  <Route path="/admin/rooms" element={<RoomManage />} />
+                  <Route path="/admin/accounts" element={<AccountManage />} />
+                  <Route path="/admin/services" element={<ServiceManage />} />
+                  <Route path="/admin/customers" element={<CustomerManage />} />
                 </Routes>
               </Layout>
             </RequireAuth>

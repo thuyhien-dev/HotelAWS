@@ -6,6 +6,8 @@ const authRoutes = require('./routes/authRoutes');
 const roomTypeRoutes = require('./routes/roomTypeRoutes');
 const roomRoutes = require('./routes/roomRoutes');
 const accountRoutes = require('./routes/accountRoutes');
+const serviceRoutes = require('./routes/serviceRoutes');
+const customerRoutes = require('./routes/customerRoutes');
 
 const cors = require('cors');
 const AWS = require('aws-sdk')
@@ -22,7 +24,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/room-types', roomTypeRoutes);
 app.use('/api/rooms', roomRoutes);
 app.use('/api/accounts', accountRoutes);
-
+app.use('/api/services', serviceRoutes);
+app.use('/api/customers', customerRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server chạy trên port ${PORT}`));
