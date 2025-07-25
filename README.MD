@@ -10,12 +10,9 @@ Dự án này giúp xây dựng một hệ thống quản lý khách sạn toàn
 
 - **Frontend**: 
   - [ReactJS](https://reactjs.org/)
-  - [Redux](https://redux.js.org/)
-  - [Redux Saga](https://redux-saga.js.org/)
-  - [React Router](https://reactrouter.com/)
-  - [Chakra UI](https://chakra-ui.com/)
 
 - **Backend**:
+  - [NodeJS](https://nodejs.org/)
   - AWS Cognito (xác thực người dùng)
   - AWS DynamoDB (cơ sở dữ liệu NoSQL)
   - AWS S3 (lưu trữ ảnh phòng)
