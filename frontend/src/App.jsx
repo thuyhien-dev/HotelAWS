@@ -1,61 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 
-import Layout from "./components/Layout/Layout";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import Logout from "./pages/Logout";
-import Account from "./pages/Account";
-import RoomTypeManage from "./pages/RoomTypeManage";
-import RoomManage from "./pages/RoomManage";
-import AccountManage from "./pages/AccountManage";
-import CustomerManage from "./pages/CustomerManage";
-import ServiceManage from "./pages/ServiceManage";
-
-function RequireAuth({ children }) {
-  const token = localStorage.getItem('token');
-  return token ? children : <Navigate to="/login" replace />;
-}
-
-export default function App() {
-  const [isAuth, setIsAuth] = useState(!!localStorage.getItem("token"));
-
-  useEffect(() => {
-    setIsAuth(!!localStorage.getItem("token"));
-  }, []);
-
+import AdminLayout from "layouts/admin";
+import AuthLayout from "layouts/auth";
+const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/login"
-          element={
-            isAuth ? <Navigate to="/dashboard" replace /> : <Login setIsAuth={setIsAuth} />
-          }
-        />
-        <Route
-          path="/logout"
-          element={<Logout setIsAuth={setIsAuth} />}
-        />
-        <Route path="/account" element={<Account setIsAuth={setIsAuth} />} />
-        <Route
-          path="/*"
-          element={
-            <RequireAuth>
-              <Layout>
-                <Routes>
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/admin/roomTypes" element={<RoomTypeManage />} />
-                  <Route path="/admin/rooms" element={<RoomManage />} />
-                  <Route path="/admin/accounts" element={<AccountManage />} />
-                  <Route path="/admin/services" element={<ServiceManage />} />
-                  <Route path="/admin/customers" element={<CustomerManage />} />
-                </Routes>
-              </Layout>
-            </RequireAuth>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="auth/*" element={<AuthLayout />} />
+      <Route path="admin/*" element={<AdminLayout />} />
+      <Route path="/" element={<Navigate to="/admin" replace />} />
+    </Routes>
   );
-}
+};
+
+export default App;
