@@ -19,13 +19,14 @@ import Room from "views/admin/tables/Room";
 import RoomType from "views/admin/tables/RoomType";
 import Customer from "views/admin/tables/Customer";
 import Account from "views/admin/tables/Account";
+import Booking from "views/admin/tables/Booking";
 
 import SignIn from "views/auth/SignIn";
 
 
 const routes = [
   {
-    name: "Main Dashboard",
+    name: "Trang Quản Trị",
     layout: "/admin",
     path: "default",
     icon: <MdDashboard className="h-6 w-6" />,
@@ -65,6 +66,20 @@ const routes = [
     path: "customer",
     icon: <MdPeople className="h-6 w-6" />,
     component: <Customer />,
+  },
+  {
+    name: "Quản lý đơn đặt",
+    layout: "/admin",
+    path: "booking",
+    icon: <MdPeople className="h-6 w-6" />,
+    component: <Booking />,
+  },
+  {
+    name: "Quản lý thanh toán",
+    layout: "/admin",
+    path: "invoice",
+    icon: <MdPeople className="h-6 w-6" />,
+    component: <Booking />,
   },
   {
     name: "Profile",
