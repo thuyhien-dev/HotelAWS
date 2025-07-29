@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const serviceModel = require('../models/Service'); // đổi path đúng với project của bạn
+const serviceModel = require('../models/Service');
 
 // Lấy tất cả dịch vụ
 router.get('/', async (req, res) => {
@@ -11,7 +11,14 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Lỗi khi lấy danh sách dịch vụ', error: err.message });
   }
 });
-
+router.get('/count', async (req, res) => {
+  try {
+    const count = await serviceModel.count();
+    res.json({ count });
+  } catch (err) {
+    res.status(500).json({ message: 'Lỗi khi đếm dịch vụ', error: err.message });
+  }
+});
 // Tạo mới dịch vụ
 router.post('/', async (req, res) => {
   try {
@@ -52,5 +59,8 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ message: 'Xoá dịch vụ thất bại', error: err.message });
   }
 });
+
+
+
 
 module.exports = router;

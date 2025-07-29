@@ -63,5 +63,9 @@ module.exports = {
       TableName: TABLE_NAME,
       Key: { customerId: Number(customerId) }
     }).promise()
+  },
+  count: async () => {
+    const result = await dynamodb.scan({ TableName: TABLE_NAME }).promise();
+    return result.Items.length;
   }
 }

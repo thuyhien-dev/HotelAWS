@@ -112,6 +112,10 @@ module.exports = {
 
     const result = await dynamodb.update(params).promise();
     return result.Attributes;
+  },
+  count: async () => {
+    const result = await dynamodb.scan({ TableName: TABLE_NAME }).promise();
+    return result.Items.length;
   }
 
 };

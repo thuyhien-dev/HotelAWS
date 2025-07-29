@@ -79,7 +79,7 @@ const routes = [
     layout: "/admin",
     path: "invoice",
     icon: <MdPeople className="h-6 w-6" />,
-    component: <Booking />,
+    component: <Account />,
   },
   {
     name: "Profile",

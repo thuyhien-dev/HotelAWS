@@ -1,57 +1,43 @@
+// routes/bookingDetails.js
 const express = require('express');
 const router = express.Router();
-const roomTypeModel = require('../models/RoomType'); 
+const bookingDetailModel = require('../models/BookingDetail');
 
-// Lấy tất cả loại phòng
+// GET all
 router.get('/', async (req, res) => {
   try {
-    const roomTypes = await roomTypeModel.getAll();
-    res.json(roomTypes);
+    const data = await bookingDetailModel.getAll();
+    res.json(data);
   } catch (err) {
-    res.status(500).json({ message: 'Lỗi khi lấy dữ liệu', error: err.message });
+    res.status(500).json({ message: 'Lỗi khi lấy booking details', error: err.message });
   }
 });
 
-// Tạo mới loại phòng
+// POST
 router.post('/', async (req, res) => {
   try {
-    const newRoomType = await roomTypeModel.create(req.body);
-    res.status(201).json(newRoomType);
+    const created = await bookingDetailModel.create(req.body);
+    res.status(201).json(created);
   } catch (err) {
-    res.status(400).json({ message: 'Tạo loại phòng thất bại', error: err.message });
+    res.status(400).json({ message: 'Thêm booking detail thất bại', error: err.message });
   }
 });
 
+// DELETE
+router.delete('/', async (req, res) => {
+  const { bookingId, serviceId } = req.query;
 
-// Lấy loại phòng theo ID
-router.get('/:id', async (req, res) => {
   try {
-    const roomType = await roomTypeModel.getById(req.params.id);
-    if (!roomType) return res.status(404).json({ message: 'Không tìm thấy loại phòng' });
-    res.json(roomType);
-  } catch (err) {
-    res.status(500).json({ message: 'Lỗi khi lấy loại phòng', error: err.message });
-  }
-});
+    if (!bookingId || !serviceId) {
+      return res.status(400).json({ message: 'Thiếu bookingId hoặc serviceId để xoá' });
+    }
 
-// Cập nhật loại phòng
-router.put('/:id', async (req, res) => {
-  try {
-    await roomTypeModel.update(req.params.id, req.body);
-    res.json({ message: 'Cập nhật thành công' });
-  } catch (err) {
-    res.status(400).json({ message: 'Cập nhật thất bại', error: err.message });
-  }
-});
-
-// Xoá loại phòng
-router.delete('/:id', async (req, res) => {
-  try {
-    await roomTypeModel.delete(req.params.id);
+    await bookingDetailModel.delete(Number(bookingId), Number(serviceId));
     res.json({ message: 'Xoá thành công' });
   } catch (err) {
     res.status(500).json({ message: 'Xoá thất bại', error: err.message });
   }
 });
+
 
 module.exports = router;

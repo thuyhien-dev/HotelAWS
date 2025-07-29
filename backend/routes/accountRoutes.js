@@ -10,7 +10,14 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Lỗi khi lấy danh sách tài khoản', error: err.message });
   }
 });
-
+router.get('/count', async (req, res) => {
+  try {
+    const count = await accountModel.count();
+    res.json({ count });
+  } catch (err) {
+    res.status(500).json({ message: 'Lỗi khi đếm dịch vụ', error: err.message });
+  }
+});
 router.post('/', async (req, res) => {
   try {
     const newAccount = await accountModel.create(req.body);

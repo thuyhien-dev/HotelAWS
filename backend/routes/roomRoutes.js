@@ -34,7 +34,32 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Lỗi khi lấy phòng', error: err.message });
   }
 });
+router.patch('/:id/status', async (req, res) => {
+  try {
+    const roomId = req.params.id;
+    const { status } = req.body;
 
+    if (!status) {
+      return res.status(400).json({ message: 'Trạng thái là bắt buộc.' });
+    }
+
+    await roomModel.update(roomId, { status });
+
+    res.json({ message: 'Cập nhật trạng thái phòng thành công' });
+  } catch (err) {
+    console.error("PATCH /rooms/:id/status error:", err);
+    res.status(400).json({ message: 'Cập nhật trạng thái phòng thất bại', error: err.message });
+  }
+});
+
+router.get('/count', async (req, res) => {
+  try {
+    const count = await roomModel.count();
+    res.json({ count });
+  } catch (err) {
+    res.status(500).json({ message: 'Lỗi khi đếm dịch vụ', error: err.message });
+  }
+});
 router.get('/:id', async (req, res) => {
   try {
     const room = await roomModel.getById(req.params.id);

@@ -10,7 +10,14 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Lỗi khi lấy dữ liệu đơn đặt phòng', error: err.message });
   }
 });
-
+router.get('/count', async (req, res) => {
+  try {
+    const count = await bookingModel.count();
+    res.json({ count });
+  } catch (err) {
+    res.status(500).json({ message: 'Lỗi khi đếm dịch vụ', error: err.message });
+  }
+});
 router.post('/', async (req, res) => {
   try {
     const newBooking = await bookingModel.create(req.body);

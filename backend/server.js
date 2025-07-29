@@ -29,7 +29,7 @@ app.use('/api/accounts', accountRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/bookings', bookingRoutes);
-app.use('/api/bookingDetails', bookingDetailRoutes);
+app.use('/api/booking-details', bookingDetailRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server chạy trên port ${PORT}`));

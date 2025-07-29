@@ -11,7 +11,14 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Lỗi khi lấy danh sách khách hàng', error: err.message });
   }
 });
-
+router.get('/count', async (req, res) => {
+  try {
+    const count = await customerModel.count();
+    res.json({ count });
+  } catch (err) {
+    res.status(500).json({ message: 'Lỗi khi đếm dịch vụ', error: err.message });
+  }
+});
 // Tạo mới khách hàng
 router.post('/', async (req, res) => {
   try {
