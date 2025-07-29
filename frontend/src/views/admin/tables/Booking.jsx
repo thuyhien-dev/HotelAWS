@@ -17,7 +17,15 @@ export default function BookingManagement() {
   const [bookingDetails, setBookingDetails] = useState([]);
   const [selectedBookingForService, setSelectedBookingForService] = useState(null);
   const [serviceModalVisible, setServiceModalVisible] = useState(false);
+  const [roomTypes, setRoomTypes] = useState([]);
   const [serviceForm, setServiceForm] = useState({ serviceId: "", quantity: 1 });
+
+  const [invoiceModal, setInvoiceModal] = useState({
+    visible: false,
+    invoice: null,
+  });
+
+
 
   const [formData, setFormData] = useState({
     checkInDate: "",
@@ -31,17 +39,93 @@ export default function BookingManagement() {
     fetchBookings();
     fetchCustomers();
     fetchRooms();
+    fetchRoomTypes();
     fetchServices();
+    const params = new URLSearchParams(window.location.search);
+    const message = params.get('message');
+    if (message) {
+      setToast({ message, type: 'success' });
+      params.delete('message');
+      const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+      window.history.replaceState({}, '', newUrl);
+    }
   }, []);
 
   const fetchBookings = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/bookings");
-      setBookings(res.data);
+      const dataWithPaymentStatus = res.data.map(b => ({
+        ...b,
+        paymentStatus: b.paymentStatus || (Math.random() > 0.5 ? "Đang thanh toán" : "Đã hoàn thành")
+      }));
+      setBookings(dataWithPaymentStatus);
     } catch (error) {
       showToast("Lỗi khi tải danh sách đặt phòng", "error");
     }
   };
+
+  const fetchRoomTypes = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/room-types");
+      setRoomTypes(res.data);
+    } catch (error) {
+      console.error(error)
+      showToast("Lỗi khi tải loại phòng", "error");
+    }
+  };
+
+  const handlePaymentClick = async (booking) => {
+    try {
+      if (booking.paymentStatus === "Hoàn thành") {
+        const res = await axios.get(`http://localhost:5000/api/invoices`);
+        const foundInvoice = res.data.find(inv => inv.bookingId === booking.bookingId);
+        if (foundInvoice) {
+          setInvoiceModal({ visible: true, invoice: foundInvoice });
+          return;
+        }
+      }
+
+      const checkIn = new Date(booking.checkInDate);
+      const checkOut = new Date(booking.checkOutDate);
+      const diffTime = checkOut - checkIn;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      const room = rooms.find(r => r.roomId === booking.roomId);
+      if (!room) throw new Error("Không tìm thấy phòng");
+      const roomType = roomTypes.find(rt => rt.roomTypeId === Number(room.roomTypeId));
+
+      if (!roomType) throw new Error("Không tìm thấy loại phòng");
+
+      const pricePerNight = roomType.pricePerNight || 0;
+
+      const resDetails = await axios.get("http://localhost:5000/api/booking-details");
+      const detailsForBooking = resDetails.data.filter(bd => bd.bookingId === booking.bookingId);
+
+      let totalServiceAmount = 0;
+      detailsForBooking.forEach(detail => {
+        const service = services.find(s => s.serviceId === detail.serviceId);
+        if (service) {
+          totalServiceAmount += service.price * detail.quantity;
+        }
+      });
+
+      const amount = diffDays * pricePerNight + totalServiceAmount;
+
+      const response = await axios.post('http://localhost:5000/api/invoices/vnpay/create', {
+        id: booking.bookingId,
+        amount,
+      });
+
+      const { paymentUrl } = response.data;
+      window.location.href = paymentUrl;
+
+    } catch (error) {
+      console.error("Lỗi khi xử lý thanh toán:", error);
+      showToast("Không thể tạo thanh toán", "error");
+    }
+  };
+
+
 
   const fetchCustomers = async () => {
     try {
@@ -51,8 +135,6 @@ export default function BookingManagement() {
       showToast("Lỗi khi tải danh sách khách hàng", "error");
     }
   };
-
-
 
 
   const fetchRooms = async () => {
@@ -105,7 +187,8 @@ export default function BookingManagement() {
         checkOutDate: formData.checkOutDate,
         customerId: Number(formData.customerId),
         roomId: Number(formData.roomId),
-        status: formData.status,
+        status: "Đang đặt",
+        paymentStatus: "Đang thanh toán"
       };
 
       if (editingBooking) {
@@ -234,6 +317,26 @@ export default function BookingManagement() {
         );
       },
     }),
+    columnHelper.accessor("paymentStatus", {
+      header: () => <span className="font-bold">Trạng thái thanh toán</span>,
+      cell: info => {
+        const booking = info.row.original;
+        const status = info.getValue();
+        let colorClass = "bg-gray-200 text-gray-800";
+        if (status === "Đang thanh toán") colorClass = "bg-yellow-100 text-yellow-800";
+        else if (status === "Hoàn thành") colorClass = "bg-green-100 text-green-800";
+
+        return (
+          <button
+            className={`px-2 py-1 rounded text-sm font-medium ${colorClass} underline`}
+            onClick={() => handlePaymentClick(booking)}
+          >
+            {status}
+          </button>
+        );
+      },
+    }),
+
     columnHelper.display({
       id: "actions",
       header: () => <span className="font-bold">Hành động</span>,
@@ -401,18 +504,6 @@ export default function BookingManagement() {
                     ))}
                 </select>
               </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">Trạng thái</label>
-                <input
-                  type="text"
-                  name="status"
-                  value={formData.status}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Ví dụ: Đã đặt, Đã huỷ"
-                />
-              </div>
             </div>
 
             <div className="flex justify-end gap-2 px-6 py-4 border-t">
@@ -461,12 +552,14 @@ export default function BookingManagement() {
                   className="w-20 border rounded px-2 py-1"
                   placeholder="Số lượng"
                 />
-                <button
-                  className="bg-green-600 text-white px-4 py-1 rounded"
-                  onClick={addServiceToBooking}
-                >
-                  ➕ Thêm
-                </button>
+                {selectedBookingForService.status !== "Hoàn thành" && (
+                  <button
+                    className="bg-green-600 text-white px-4 py-1 rounded"
+                    onClick={addServiceToBooking}
+                  >
+                    ➕ Thêm
+                  </button>
+                )}
               </div>
 
               <table className="w-full text-sm border">
@@ -519,6 +612,32 @@ export default function BookingManagement() {
           </div>
         </div>
       )}
+
+      {invoiceModal.visible && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
+            <div className="px-6 py-4 border-b flex justify-between items-center">
+              <h5 className="text-lg font-bold">Thông tin hoá đơn</h5>
+              <button onClick={() => setInvoiceModal({ visible: false, invoice: null })}>✕</button>
+            </div>
+            <div className="px-6 py-4 space-y-2 text-sm">
+              <p><strong>ID hoá đơn:</strong> {invoiceModal.invoice.invoiceId}</p>
+              <p><strong>ID đơn đặt phòng:</strong> {invoiceModal.invoice.bookingId}</p>
+              <p><strong>Ngày tạo:</strong> {new Date(invoiceModal.invoice.createdAt).toLocaleString()}</p>
+              <p><strong>Tổng tiền:</strong> {invoiceModal.invoice.totalAmount.toLocaleString()}₫</p>
+            </div>
+            <div className="px-6 py-3 border-t text-right">
+              <button
+                className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
+                onClick={() => setInvoiceModal({ visible: false, invoice: null })}
+              >
+                Đóng
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
 
       {toast && <Toast message={toast.message} type={toast.type} onClose={closeToast} />}
     </div>

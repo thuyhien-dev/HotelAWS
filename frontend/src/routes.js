@@ -8,10 +8,10 @@ import {
   MdRoomService,
   MdPerson,
   MdLock,
+  MdReceipt,
+  MdEventNote 
 } from "react-icons/md";
 
-
-// Admin Imports
 import MainDashboard from "views/admin/default";
 import Profile from "views/admin/profile";
 import Service from "views/admin/tables/Service";
@@ -71,18 +71,11 @@ const routes = [
     name: "Quản lý đơn đặt",
     layout: "/admin",
     path: "booking",
-    icon: <MdPeople className="h-6 w-6" />,
+    icon: <MdEventNote className="h-6 w-6" />,
     component: <Booking />,
   },
   {
-    name: "Quản lý thanh toán",
-    layout: "/admin",
-    path: "invoice",
-    icon: <MdPeople className="h-6 w-6" />,
-    component: <Account />,
-  },
-  {
-    name: "Profile",
+    name: "Tài khoản của tôi",
     layout: "/admin",
     path: "profile",
     icon: <MdPerson className="h-6 w-6" />,

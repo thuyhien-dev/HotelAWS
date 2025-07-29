@@ -23,7 +23,7 @@ async function uploadToS3(file) {
   };
 
   const data = await s3.upload(params).promise();
-  return data.Location; 
+  return data.Location;
 }
 
 router.get('/', async (req, res) => {
@@ -34,6 +34,17 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Lỗi khi lấy phòng', error: err.message });
   }
 });
+router.get('/status-count', async (req, res) => {
+  try {
+    const rooms = await roomModel.getAll();
+    const occupied = rooms.filter(r => r.status === 'occupied').length;
+    const available = rooms.filter(r => r.status === 'available' || r.status === 'free').length;
+    res.json({ occupied, available });
+  } catch (err) {
+    res.status(500).json({ message: 'Lỗi lấy thống kê phòng', error: err.message });
+  }
+});
+
 router.patch('/:id/status', async (req, res) => {
   try {
     const roomId = req.params.id;

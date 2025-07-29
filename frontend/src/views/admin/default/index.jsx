@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import WeeklyRevenue from "views/admin/default/components/WeeklyRevenue";
-import TotalSpent from "views/admin/default/components/TotalSpent";
+import TotalRevenue from "views/admin/default/components/TotalRevenue";
 import PieChartCard from "views/admin/default/components/PieChartCard";
 import { IoMdHome } from "react-icons/io";
 import { IoDocuments } from "react-icons/io5";
@@ -33,12 +33,33 @@ const useEntityCount = (endpoint) => {
   return count;
 };
 
+const useTotalRevenue = () => {
+  const [revenue, setRevenue] = useState(0);
+
+  const fetchRevenue = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/api/invoices/total-revenue');
+      setRevenue(res.data.totalRevenue);
+    } catch (err) {
+      console.error('Lỗi khi lấy tổng doanh thu:', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchRevenue();
+  }, []);
+
+  return revenue;
+};
+
+
 const Dashboard = () => {
   const serviceCount = useEntityCount("services");
   const customerCount = useEntityCount("customers");
   const accountCount = useEntityCount("accounts");
   const bookingCount = useEntityCount("bookings");
   const roomCount = useEntityCount("rooms");
+  const revenue = useTotalRevenue();
 
   return (
     <div>
@@ -72,31 +93,20 @@ const Dashboard = () => {
         <Widget
           icon={<MdBarChart className="h-7 w-7" />}
           title={"Doanh thu"}
-          subtitle={"$1,000"}
+          subtitle={revenue.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}
         />
       </div>
 
+      <br />
+      <br />
+      <br />
       {/* Charts */}
       <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
-        <TotalSpent />
-        <WeeklyRevenue />
-      </div>
-
-      {/* Tables & Charts */}
-      <div className="mt-5 grid grid-cols-1 gap-5 xl:grid-cols-2">
-        {/* Check Table */}
-        <div>
-          <CheckTable
-            columnsData={columnsDataCheck}
-            tableData={tableDataCheck}
-          />
-        </div>
-
-        {/* Traffic chart & Pie Chart */}
-        <div className="grid grid-cols-1 gap-5 rounded-[20px] md:grid-cols-2">
-          <DailyTraffic />
-          <PieChartCard />
-        </div>
+        <TotalRevenue />
+        <CheckTable
+          columnsData={columnsDataCheck}
+          tableData={tableDataCheck}
+        />
       </div>
     </div>
   );

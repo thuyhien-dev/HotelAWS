@@ -1,7 +1,15 @@
 require('dotenv').config();
-
 const express = require('express');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+
+
 const app = express();
+app.use(session({
+  secret: '0085677cdc0002ebdbc16f3f215b5e74',
+  resave: false,
+  saveUninitialized: true
+}));
 const authRoutes = require('./routes/authRoutes');
 const roomTypeRoutes = require('./routes/roomTypeRoutes');
 const roomRoutes = require('./routes/roomRoutes');
@@ -10,6 +18,7 @@ const serviceRoutes = require('./routes/serviceRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 const bookingDetailRoutes = require('./routes/bookingDetailRoutes');
+const invoiceRoutes = require('./routes/invoiceRoutes');
 
 const cors = require('cors');
 const AWS = require('aws-sdk')
@@ -30,6 +39,7 @@ app.use('/api/services', serviceRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/booking-details', bookingDetailRoutes);
+app.use('/api/invoices', invoiceRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server chạy trên port ${PORT}`));

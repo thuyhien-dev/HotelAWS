@@ -40,7 +40,7 @@ export default function Auth() {
                       />
                     </svg>
                     <p className="ml-3 text-sm text-gray-600">
-                      Back to Dashboard
+                      Quay lại
                     </p>
                   </div>
                 </Link>
