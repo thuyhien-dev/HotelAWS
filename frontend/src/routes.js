@@ -22,7 +22,7 @@ import Account from "views/admin/tables/Account";
 import Booking from "views/admin/tables/Booking";
 
 import SignIn from "views/auth/SignIn";
-
+import Logout from "views/admin/Logout";
 
 const routes = [
   {
@@ -87,7 +87,14 @@ const routes = [
     path: "sign-in",
     icon: <MdLock className="h-6 w-6" />,
     component: <SignIn />,
-  }
+  },
+  {
+    name: "Đăng xuất",
+    layout: "/admin",
+    path: "logout",
+    icon: <MdLock className="h-6 w-6" />,
+    component: <Logout />,
+  },
 ];
 
 export default routes;

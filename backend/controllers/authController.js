@@ -29,17 +29,26 @@ module.exports = {
 
     const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: '1h' });
 
-    res.json({ message: 'Đăng nhập thành công', token });
+    res.status(200).json({ ok: true, message: 'Đăng nhập thành công', token });
   },
 
+
   changePassword: async (req, res) => {
-    const email = req.user.email;
-    const { oldPassword, newPassword } = req.body;
+    const { email, oldPassword, newPassword } = req.body;
+
+    if (!email || !oldPassword || !newPassword) {
+      return res.status(400).json({ message: 'Thiếu thông tin bắt buộc' });
+    }
 
     try {
       const user = await accountModel.getByEmail(email);
       if (!user) {
         return res.status(401).json({ message: 'User không tồn tại' });
+      }
+
+      const isMatch = await bcrypt.compare(oldPassword, user.password);
+      if (!isMatch) {
+        return res.status(401).json({ message: 'Mật khẩu cũ không đúng' });
       }
 
       const hashedNewPassword = await bcrypt.hash(newPassword, 10);
@@ -56,9 +65,13 @@ module.exports = {
   },
 
 
+
   updateProfile: async (req, res) => {
-    const email = req.user.email;
-    const updates = req.body;
+    const { email, ...updates } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ message: 'Thiếu email' });
+    }
 
     try {
       const user = await accountModel.getByEmail(email);

@@ -155,7 +155,7 @@ const Navbar = (props) => {
 
               <div className="flex flex-col p-4">
                 <a
-                  href="/logout"
+                  href="/admin/logout"
                   className="mt-3 text-sm font-medium text-red-500 hover:text-red-500 transition duration-150 ease-out hover:ease-in"
                 >
                   Đăng xuất
