@@ -7,7 +7,7 @@ router.post('/change-password', authController.changePassword);
 
 router.get('/profile', async (req, res) => {
   const accountModel = require('../models/Account');
-  const email = req.query.email; 
+  const email = req.query.email;
 
   if (!email) return res.status(400).json({ message: 'Thiếu email' });
 
@@ -17,7 +17,6 @@ router.get('/profile', async (req, res) => {
   delete user.password;
   res.json({ user });
 });
-
 
 router.put('/update-profile', authController.updateProfile);
 

@@ -13,6 +13,7 @@ module.exports = {
     const newAccount = {
       ...account,
       accountId: maxId + 1,
+      createdAt: new Date().toISOString()
     };
 
     await dynamodb.put({
@@ -24,55 +25,34 @@ module.exports = {
   },
 
   getAll: async () => {
-    const result = await dynamodb.scan({ TableName: TABLE_NAME }).promise()
-    return result.Items
+    const result = await dynamodb.scan({ TableName: TABLE_NAME }).promise();
+    return result.Items;
   },
 
   getById: async (accountId) => {
     const result = await dynamodb.get({
       TableName: TABLE_NAME,
       Key: { accountId: Number(accountId) }
-    }).promise()
-    return result.Item
-  },
-
-  update: async (accountId, updates) => {
-    const updateExpressions = []
-    const expressionAttributeNames = {}
-    const expressionAttributeValues = {}
-
-    for (const key in updates) {
-      updateExpressions.push(`#${key} = :${key}`)
-      expressionAttributeNames[`#${key}`] = key
-      expressionAttributeValues[`:${key}`] = updates[key]
-    }
-
-    const UpdateExpression = 'SET ' + updateExpressions.join(', ')
-
-    await dynamodb.update({
-      TableName: TABLE_NAME,
-      Key: { accountId: Number(accountId) },
-      UpdateExpression,
-      ExpressionAttributeNames: expressionAttributeNames,
-      ExpressionAttributeValues: expressionAttributeValues
-    }).promise()
+    }).promise();
+    return result.Item;
   },
 
   delete: async (accountId) => {
     await dynamodb.delete({
       TableName: TABLE_NAME,
       Key: { accountId: Number(accountId) }
-    }).promise()
+    }).promise();
   },
 
   getByAccountId: async (accountId) => {
     const params = {
       TableName: TABLE_NAME,
-      Key: { accountId },
+      Key: { accountId: Number(accountId) },
     };
     const result = await dynamodb.get(params).promise();
     return result.Item;
   },
+
   getByEmail: async (email) => {
     const params = {
       TableName: TABLE_NAME,
@@ -113,9 +93,9 @@ module.exports = {
     const result = await dynamodb.update(params).promise();
     return result.Attributes;
   },
+
   count: async () => {
     const result = await dynamodb.scan({ TableName: TABLE_NAME }).promise();
     return result.Items.length;
   }
-
 };

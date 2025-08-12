@@ -22,6 +22,17 @@ export default function Accounts() {
     fetchAccounts();
   }, []);
 
+  const validatePassword = (password) => {
+    const lengthCheck = password.length >= 8;
+    const uppercaseCheck = /[A-Z]/.test(password);
+    const lowercaseCheck = /[a-z]/.test(password);
+    const numberCheck = /[0-9]/.test(password);
+    const specialCharCheck = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    return lengthCheck && uppercaseCheck && lowercaseCheck && numberCheck && specialCharCheck;
+  };
+
+
   const fetchAccounts = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/accounts");
@@ -65,12 +76,28 @@ export default function Accounts() {
         return;
       }
 
+      if (!editingAccount) {
+        if (!formData.password) {
+          showToast("Mật khẩu không được để trống khi tạo tài khoản mới", "error");
+          return;
+        }
+        if (!validatePassword(formData.password)) {
+          showToast("Mật khẩu phải ít nhất 8 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt", "error");
+          return;
+        }
+      } else {
+        if (formData.password && !validatePassword(formData.password)) {
+          showToast("Mật khẩu phải ít nhất 8 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt", "error");
+          return;
+        }
+      }
+
       const payload = {
         email: formData.email,
         name: formData.name,
         role: formData.role,
       };
-      // Nếu có nhập password mới thì gửi kèm
+
       if (formData.password) {
         payload.password = formData.password;
       }
@@ -79,10 +106,6 @@ export default function Accounts() {
         await axios.put(`http://localhost:5000/api/accounts/${editingAccount.accountId}`, payload);
         showToast("Cập nhật tài khoản thành công!", "success");
       } else {
-        if (!formData.password) {
-          showToast("Mật khẩu không được để trống khi tạo tài khoản mới", "error");
-          return;
-        }
         await axios.post("http://localhost:5000/api/accounts", payload);
         showToast("Thêm tài khoản thành công!", "success");
       }
@@ -93,6 +116,8 @@ export default function Accounts() {
       showToast("Lỗi khi lưu tài khoản", "error");
     }
   };
+
+  // tets
 
   const handleDelete = async (id) => {
     if (!window.confirm("Bạn chắc chắn muốn xóa tài khoản này?")) return;
