@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import basePath from "../../../utils/basePath"; 
 
 import WeeklyRevenue from "views/admin/default/components/WeeklyRevenue";
 import TotalRevenue from "views/admin/default/components/TotalRevenue";
@@ -19,7 +20,7 @@ const useEntityCount = (endpoint) => {
 
   const fetchCount = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/${endpoint}/count`);
+      const res = await axios.get(`${basePath}/${endpoint}/count`);
       setCount(res.data.count);
     } catch (error) {
       console.error(`Lỗi khi đếm ${endpoint}:`, error);
@@ -38,7 +39,7 @@ const useTotalRevenue = () => {
 
   const fetchRevenue = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/invoices/total-revenue');
+      const res = await axios.get(`${basePath}/invoices/total-revenue`);
       setRevenue(res.data.totalRevenue);
     } catch (err) {
       console.error('Lỗi khi lấy tổng doanh thu:', err);

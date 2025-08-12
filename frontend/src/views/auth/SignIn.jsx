@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import InputField from "components/fields/InputField";
 import Checkbox from "components/checkbox";
 import Toast from "views/admin/Toast";
+import basePath from "../../utils/basePath"; 
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -26,7 +27,7 @@ export default function SignIn() {
     console.log("Bắt đầu login");
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch(`${basePath}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

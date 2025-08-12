@@ -4,6 +4,7 @@ import axios from "axios";
 import CardMenu from "components/card/CardMenu";
 import Checkbox from "components/checkbox";
 import Card from "components/card";
+import basePath from "../../../../utils/basePath"; 
 
 import {
   createColumnHelper,
@@ -21,7 +22,7 @@ function CheckTable() {
 
   const fetchServices = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/services");
+      const res = await axios.get(`${basePath}/services`);
 
       const formattedData = res.data.map((s) => ({
         name: [s.name, false], 

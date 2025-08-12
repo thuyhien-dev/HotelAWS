@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import basePath from "../../../../utils/basePath"; 
 import axios from "axios";
 
 export default function VnPayReturn() {
@@ -11,7 +12,7 @@ export default function VnPayReturn() {
         const params = new URLSearchParams(window.location.search);
         const query = Object.fromEntries(params.entries());
 
-        const res = await axios.get(`http://localhost:5000/api/invoices/vnpay/return`, {
+        const res = await axios.get(`${basePath}/invoices/vnpay/return`, {
           params: query,
         });
 

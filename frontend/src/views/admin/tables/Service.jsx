@@ -3,6 +3,7 @@ import axios from "axios";
 import Toast from './components/Toast';
 import ComplexTable from './components/ComplexTable';
 import { createColumnHelper } from "@tanstack/react-table";
+import basePath from "../../../utils/basePath"; 
 
 const columnHelper = createColumnHelper();
 
@@ -23,7 +24,7 @@ export default function Services() {
 
   const fetchServices = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/services");
+      const res = await axios.get(`${basePath}/services`);
       setServices(res.data);
     } catch (error) {
       showToast("Lỗi khi tải dịch vụ", "error");
@@ -71,10 +72,10 @@ export default function Services() {
       };
 
       if (editingService) {
-        await axios.put(`http://localhost:5000/api/services/${editingService.serviceId}`, payload);
+        await axios.put(`${basePath}/services/${editingService.serviceId}`, payload);
         showToast("Cập nhật dịch vụ thành công!", "success");
       } else {
-        await axios.post("http://localhost:5000/api/services", payload);
+        await axios.post(`${basePath}/services`, payload);
         showToast("Thêm dịch vụ thành công!", "success");
       }
       closeModal();
@@ -88,7 +89,7 @@ export default function Services() {
   const handleDelete = async (id) => {
     if (!window.confirm("Bạn chắc chắn muốn xóa dịch vụ này?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/services/${id}`);
+      await axios.delete(`${basePath}/services/${id}`);
       showToast("Xoá dịch vụ thành công!", "success");
       fetchServices();
     } catch {

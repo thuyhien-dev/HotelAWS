@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import basePath from "../../../utils/basePath"; 
 
 const ProfileOverview = () => {
   const [profile, setProfile] = useState({
@@ -20,7 +21,7 @@ const ProfileOverview = () => {
         const email = localStorage.getItem("userEmail");
         if (!email) throw new Error("Không có email người dùng");
 
-        const res = await fetch(`http://localhost:5000/api/auth/profile?email=${encodeURIComponent(email)}`, {
+        const res = await fetch(`${basePath}/auth/profile?email=${encodeURIComponent(email)}`, {
           headers: {
             "Authorization": `Bearer ${localStorage.getItem("token")}`,
           },
@@ -46,7 +47,7 @@ const ProfileOverview = () => {
     setProfileMsg(null);
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/update-profile", {
+      const res = await fetch(`${basePath}/auth/update-profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -84,7 +85,7 @@ const ProfileOverview = () => {
         newPassword: passwordData.newPassword,
       };
 
-      const res = await fetch("http://localhost:5000/api/auth/change-password", {
+      const res = await fetch(`${basePath}/auth/change-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

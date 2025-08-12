@@ -1,6 +1,7 @@
 import PieChart from "components/charts/PieChart";
 import { pieChartData, pieChartOptions } from "variables/charts";
 import Card from "components/card";
+import basePath from "../../../../utils/basePath"; 
 
 import React, { useEffect, useState } from 'react';
 
@@ -8,7 +9,7 @@ const PieChartCard = () => {
   const [series, setSeries] = useState([0, 0]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/rooms/status-count')
+    fetch(`${basePath}/rooms/status-count`)
       .then(res => res.json())
       .then(({ available, occupied }) => {
         setSeries([available, occupied]);

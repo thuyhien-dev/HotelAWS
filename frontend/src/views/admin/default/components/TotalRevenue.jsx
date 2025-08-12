@@ -7,6 +7,7 @@ import {
 } from "react-icons/md";
 import Card from "components/card";
 import LineChart from "components/charts/LineChart";
+import basePath from "../../../../utils/basePath"; 
 
 const TotalRevenue = () => {
   const [revenueData, setRevenueData] = useState({
@@ -17,7 +18,7 @@ const TotalRevenue = () => {
   useEffect(() => {
     const fetchMonthlyRevenue = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/invoices/monthly-revenue");
+        const res = await axios.get(`${basePath}/invoices/monthly-revenue`);
         const data = res.data;
 
         const labels = data.map(item => `Tháng ${item.month}`);

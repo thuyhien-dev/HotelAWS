@@ -3,6 +3,7 @@ import axios from "axios";
 import Toast from './components/Toast';
 import ComplexTable from './components/ComplexTable';
 import { createColumnHelper } from "@tanstack/react-table";
+import basePath from "../../../utils/basePath"; 
 
 const columnHelper = createColumnHelper();
 
@@ -53,7 +54,7 @@ export default function BookingManagement() {
 
   const fetchBookings = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/bookings");
+      const res = await axios.get(`${basePath}/bookings`);
       const dataWithPaymentStatus = res.data.map(b => ({
         ...b,
         paymentStatus: b.paymentStatus || (Math.random() > 0.5 ? "Đang thanh toán" : "Đã hoàn thành")
@@ -66,7 +67,7 @@ export default function BookingManagement() {
 
   const fetchRoomTypes = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/room-types");
+      const res = await axios.get(`${basePath}/room-types`);
       setRoomTypes(res.data);
     } catch (error) {
       console.error(error)
@@ -77,7 +78,7 @@ export default function BookingManagement() {
   const handlePaymentClick = async (booking) => {
     try {
       if (booking.paymentStatus === "Hoàn thành") {
-        const res = await axios.get(`http://localhost:5000/api/invoices`);
+        const res = await axios.get(`${basePath}/invoices`);
         const foundInvoice = res.data.find(inv => inv.bookingId === booking.bookingId);
         if (foundInvoice) {
           setInvoiceModal({ visible: true, invoice: foundInvoice });
@@ -98,7 +99,7 @@ export default function BookingManagement() {
 
       const pricePerNight = roomType.pricePerNight || 0;
 
-      const resDetails = await axios.get("http://localhost:5000/api/booking-details");
+      const resDetails = await axios.get(`${basePath}/booking-details`);
       const detailsForBooking = resDetails.data.filter(bd => bd.bookingId === booking.bookingId);
 
       let totalServiceAmount = 0;
@@ -111,7 +112,7 @@ export default function BookingManagement() {
 
       const amount = diffDays * pricePerNight + totalServiceAmount;
 
-      const response = await axios.post('http://localhost:5000/api/invoices/vnpay/create', {
+      const response = await axios.post(`${basePath}/invoices/vnpay/create`, {
         id: booking.bookingId,
         amount,
       });
@@ -129,7 +130,7 @@ export default function BookingManagement() {
 
   const fetchCustomers = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/customers");
+      const res = await axios.get(`${basePath}/customers`);
       setCustomers(res.data);
     } catch (error) {
       showToast("Lỗi khi tải danh sách khách hàng", "error");
@@ -139,7 +140,7 @@ export default function BookingManagement() {
 
   const fetchRooms = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/rooms");
+      const res = await axios.get(`${basePath}/rooms`);
       setRooms(res.data);
     } catch (error) {
       showToast("Lỗi khi tải danh sách phòng", "error");
@@ -193,12 +194,12 @@ export default function BookingManagement() {
 
       if (editingBooking) {
         await axios.put(
-          `http://localhost:5000/api/bookings/${editingBooking.bookingId}`,
+          `${basePath}/bookings/${editingBooking.bookingId}`,
           payload
         );
         showToast("Cập nhật đơn đặt phòng thành công!", "success");
       } else {
-        await axios.post("http://localhost:5000/api/bookings", payload);
+        await axios.post(`${basePath}/bookings`, payload);
         showToast("Thêm đơn đặt phòng thành công!", "success");
       }
       closeModal();
@@ -212,7 +213,7 @@ export default function BookingManagement() {
   const handleDelete = async (id) => {
     if (!window.confirm("Bạn chắc chắn muốn xóa đơn đặt phòng này?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/bookings/${id}`);
+      await axios.delete(`${basePath}/bookings/${id}`);
       showToast("Xoá đơn đặt phòng thành công!", "success");
       fetchBookings();
     } catch {
@@ -228,7 +229,7 @@ export default function BookingManagement() {
 
   const fetchBookingDetails = async (bookingId) => {
     try {
-      const res = await axios.get("http://localhost:5000/api/booking-details");
+      const res = await axios.get(`${basePath}/booking-details`);
       setBookingDetails(res.data.filter(bd => bd.bookingId === bookingId));
     } catch (error) {
       showToast("Lỗi khi tải dịch vụ đặt phòng", "error");
@@ -237,7 +238,7 @@ export default function BookingManagement() {
 
   const fetchServices = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/services");
+      const res = await axios.get(`${basePath}/services`);
       setServices(res.data);
     } catch (error) {
       showToast("Lỗi khi tải danh sách dịch vụ", "error");
@@ -248,7 +249,7 @@ export default function BookingManagement() {
     if (!serviceForm.serviceId || !serviceForm.quantity) return;
 
     try {
-      await axios.post("http://localhost:5000/api/booking-details", {
+      await axios.post(`${basePath}/booking-details`, {
         bookingId: selectedBookingForService.bookingId,
         serviceId: Number(serviceForm.serviceId),
         quantity: Number(serviceForm.quantity),
@@ -263,7 +264,7 @@ export default function BookingManagement() {
 
   const deleteService = async (bookingId, serviceId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/booking-details`, {
+      await axios.delete(`${basePath}/booking-details`, {
         params: { bookingId, serviceId },
       });
       showToast("Xoá dịch vụ thành công", "success");
@@ -353,10 +354,10 @@ export default function BookingManagement() {
               status: newStatus,
             };
 
-            await axios.put(`http://localhost:5000/api/bookings/${booking.bookingId}`, updatePayload);
+            await axios.put(`${basePath}/bookings/${booking.bookingId}`, updatePayload);
 
             if (newStatus === "Hoàn thành") {
-              await axios.patch(`http://localhost:5000/api/rooms/${booking.roomId}/status`, {
+              await axios.patch(`${basePath}/rooms/${booking.roomId}/status`, {
                 status: "available"
               });
             }

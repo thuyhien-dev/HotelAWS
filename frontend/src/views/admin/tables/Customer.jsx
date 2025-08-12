@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import basePath from "../../../utils/basePath"; 
+
 import Toast from './components/Toast';
 import ComplexTable from './components/ComplexTable';
 import { createColumnHelper } from "@tanstack/react-table";
@@ -23,7 +25,7 @@ export default function Customers() {
 
   const fetchCustomers = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/customers");
+      const res = await axios.get(`${basePath}/customers`);
       setCustomers(res.data);
     } catch (error) {
       showToast("Lỗi khi tải khách hàng", "error");
@@ -71,10 +73,10 @@ export default function Customers() {
       };
 
       if (editingCustomer) {
-        await axios.put(`http://localhost:5000/api/customers/${editingCustomer.customerId}`, payload);
+        await axios.put(`${basePath}/customers/${editingCustomer.customerId}`, payload);
         showToast("Cập nhật khách hàng thành công!", "success");
       } else {
-        await axios.post("http://localhost:5000/api/customers", payload);
+        await axios.post(`${basePath}/customers`, payload);
         showToast("Thêm khách hàng thành công!", "success");
       }
       closeModal();
@@ -88,7 +90,7 @@ export default function Customers() {
   const handleDelete = async (id) => {
     if (!window.confirm("Bạn chắc chắn muốn xóa khách hàng này?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/customers/${id}`);
+      await axios.delete(`${basePath}/customers/${id}`);
       showToast("Xoá khách hàng thành công!", "success");
       fetchCustomers();
     } catch {

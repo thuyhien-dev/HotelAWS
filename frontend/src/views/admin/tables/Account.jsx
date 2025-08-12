@@ -3,6 +3,7 @@ import axios from "axios";
 import Toast from './components/Toast';
 import ComplexTable from './components/ComplexTable';
 import { createColumnHelper } from "@tanstack/react-table";
+import basePath from "../../../utils/basePath"; 
 
 const columnHelper = createColumnHelper();
 
@@ -35,7 +36,7 @@ export default function Accounts() {
 
   const fetchAccounts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/accounts");
+      const res = await axios.get(`${basePath}/accounts`);
       setAccounts(res.data);
     } catch (error) {
       showToast("Lỗi khi tải tài khoản", "error");
@@ -103,10 +104,10 @@ export default function Accounts() {
       }
 
       if (editingAccount) {
-        await axios.put(`http://localhost:5000/api/accounts/${editingAccount.accountId}`, payload);
+        await axios.put(`${basePath}/accounts/${editingAccount.accountId}`, payload);
         showToast("Cập nhật tài khoản thành công!", "success");
       } else {
-        await axios.post("http://localhost:5000/api/accounts", payload);
+        await axios.post(`${basePath}/accounts`, payload);
         showToast("Thêm tài khoản thành công!", "success");
       }
       closeModal();
@@ -122,7 +123,7 @@ export default function Accounts() {
   const handleDelete = async (id) => {
     if (!window.confirm("Bạn chắc chắn muốn xóa tài khoản này?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/accounts/${id}`);
+      await axios.delete(`${basePath}/accounts/${id}`);
       showToast("Xoá tài khoản thành công!", "success");
       fetchAccounts();
     } catch {

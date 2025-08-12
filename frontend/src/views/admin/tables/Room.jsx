@@ -3,6 +3,7 @@ import axios from "axios";
 import Toast from './components/Toast';
 import ComplexTable from './components/ComplexTable';
 import { createColumnHelper } from "@tanstack/react-table";
+import basePath from "../../../utils/basePath"; 
 
 const columnHelper = createColumnHelper();
 
@@ -26,7 +27,7 @@ export default function Rooms() {
 
   const fetchRooms = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/rooms");
+      const res = await axios.get(`${basePath}/rooms`);
       setRooms(res.data);
     } catch (error) {
       showToast("Lỗi khi tải phòng", "error");
@@ -35,7 +36,7 @@ export default function Rooms() {
 
   const fetchRoomTypes = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/room-types");
+      const res = await axios.get(`${basePath}/room-types`);
       setRoomTypes(res.data);
     } catch (error) {
       console.error("Lỗi khi tải loại phòng:", error);
@@ -83,14 +84,14 @@ export default function Rooms() {
 
       if (editingRoom) {
         await axios.put(
-          `http://localhost:5000/api/rooms/${editingRoom.roomId}`,
+          `${basePath}/rooms/${editingRoom.roomId}`,
           data,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
         showToast("Cập nhật phòng thành công!", "success");
       } else {
         await axios.post(
-          "http://localhost:5000/api/rooms",
+          `${basePath}/rooms`,
           data,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
@@ -107,7 +108,7 @@ export default function Rooms() {
   const handleDelete = async (id) => {
     if (!window.confirm("Bạn chắc chắn muốn xóa phòng này?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/rooms/${id}`);
+      await axios.delete(`${basePath}/rooms/${id}`);
       showToast("Xoá phòng thành công!", "success");
       fetchRooms();
     } catch {
